@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.utils import secure_filename
@@ -161,6 +161,19 @@ def sync_instagram():
         flash(f'Error syncing: {message}', 'error')
     return redirect(url_for('admin_dashboard'))
 
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    if os.environ.get('VERCEL'):
+        # On Vercel, check /tmp for user-uploaded files
+        if os.path.exists(os.path.join('/tmp', filename)):
+            return send_from_directory('/tmp', filename)
+        # Fallback to repo's static/uploads for defaults/pre-existing images
+        return send_from_directory(os.path.join(app.root_path, 'static', 'uploads'), filename)
+    
+    # Local development
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
+
 # Setup Database
 def create_initial_data():
     with app.app_context():
@@ -174,6 +187,16 @@ def create_initial_data():
 if __name__ == '__main__':
     create_initial_data()
     app.run(debug=True)
+else:
+    # When running on Vercel (or other production WSGI/server),
+    # we need to ensure the DB is created.
+    # checking if table exists or just calling create_all (it's safe to call multiple times)
+    with app.app_context():
+        db.create_all()
+        # Ensure admin exists even on Vercel reset
+        if not User.query.filter_by(username='admin').first():
+             print("Creating default admin user...")
+             admin = User(username='admin', password='password')
+             db.session.add(admin)
+             db.session.commit()
 
-# Vercel requires the app object to be named 'app' by default in the file specified in vercel.json
-# We essentially expose it at module level, which is already done above `app = Flask(__name__)`
