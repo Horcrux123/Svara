@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="hero" style="text-align: center; padding: 10rem 0; position: relative; overflow: hidden;">
+    <div
+        style="position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle at 50% 50%, rgba(229, 152, 155, 0.15), transparent 70%); pointer-events: none;">
+    </div>
+
+    <div class="container" style="position: relative; z-index: 2;">
+        <h1 style="font-size: 5rem; margin-bottom: 2rem;">Timeless Elegance</h1>
+        <p class="reveal"
+            style="font-size: 1.3rem; margin-bottom: 3rem; color: var(--text-secondary); max-width: 600px; margin-left: auto; margin-right: auto;">
+            Curated pieces for the modern soul. Designed to be cherished.
+        </p>
+        <div class="reveal">
+            <a href="{{ url_for('products') }}" class="btn">Explore Collection</a>
+        </div>
+    </div>
+</section>
+
+<!-- Marquee Section -->
+<div class="marquee-container reveal">
+    <div class="marquee-content">
+        <span class="marquee-item">Handcrafted with Love</span>
+        <span class="marquee-item">Sustainable Luxury</span>
+        <span class="marquee-item">Timeless Design</span>
+        <span class="marquee-item">Svara Jewellery</span>
+        <span class="marquee-item">Handcrafted with Love</span>
+        <span class="marquee-item">Sustainable Luxury</span>
+        <span class="marquee-item">Timeless Design</span>
+        <span class="marquee-item">Svara Jewellery</span>
+        <span class="marquee-item">Handcrafted with Love</span>
+        <span class="marquee-item">Sustainable Luxury</span>
+        <span class="marquee-item">Timeless Design</span>
+        <span class="marquee-item">Svara Jewellery</span>
+    </div>
+</div>
+
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">Latest Arrivals</h2>
+        <div class="product-grid">
+            {% for product in products %}
+            <div class="product-card">
+                <a href="{{ url_for('product_detail', product_id=product.id) }}">
+                    <img src="{{ url_for('static', filename='uploads/' + product.image_file) }}"
+                        alt="{{ product.name }}" class="product-image">
+                    <div class="product-info">
+                        <h3>{{ product.name }}</h3>
+                        <p class="product-price">{{ product.price }}</p>
+                    </div>
+                </a>
+            </div>
+            {% else %}
+            <p style="text-align: center; width: 100%;">Collection coming soon.</p>
+            {% endfor %}
+        </div>
+        <div style="text-align: center; margin-top: 3rem;">
+            <a href="{{ url_for('products') }}" class="btn btn-outline">View All Products</a>
+        </div>
+    </div>
+</section>
+
+<section class="section" style="background-color: white;">
+    <div class="container">
+        <h2 class="section-title">Follow Us @svara.in_</h2>
+        <div class="instagram-grid"
+            style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem;">
+            <!-- Instagram Embeds -->
+            <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DTk2WlxDZhY/"
+                data-instgrm-version="14"
+                style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 0; padding:0; width:100%;">
+            </blockquote>
+            <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DTk0I3hjRiV/"
+                data-instgrm-version="14"
+                style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 0; padding:0; width:100%;">
+            </blockquote>
+            <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DTdUUYtE_n9/"
+                data-instgrm-version="14"
+                style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 0; padding:0; width:100%;">
+            </blockquote>
+        </div>
+        <script async src="//www.instagram.com/embed.js"></script>
+
+        <div style="margin-top: 4rem;"></div>
+    </div>
+</section>
+
+<!-- Art of Svara Feature Section -->
+<section class="feature-section">
+    <div class="container">
+        <div class="feature-grid">
+            <div class="feature-image-wrapper reveal">
+                <!-- Using one of the uploaded high-res product images as the feature -->
+                <img src="{{ url_for('static', filename='uploads/roselume.jpg') }}" alt="Art of Svara"
+                    class="feature-image">
+            </div>
+
+            <div class="feature-content-card reveal">
+                <span class="feature-subtitle">Our Philosophy</span>
+                <h2 style="font-size: 3.5rem; margin-bottom: 2rem;">The Art of Svara</h2>
+                <p style="margin-bottom: 2rem; color: var(--text-secondary); font-size: 1.1rem;">
+                    Each piece we create is more than just jewellery; it is a whisper of elegance, a fragment of light
+                    caught in gold and stone.
+                    <br><br>
+                    We believe in the beauty of the everyday—finding luxury not in excess, but in the perfect balance of
+                    form and feeling.
+                </p>
+                <div class="feature-signature">
+                    "Designed to be cherished."
+                </div>
+                <div style="margin-top: 3rem;">
+                    <a href="{{ url_for('brand') }}" class="btn">Read Our Story</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

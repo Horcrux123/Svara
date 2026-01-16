@@ -1,0 +1,7 @@
+flask
+sqlalchemy
+flask-sqlalchemy
+werkzeug
+flask-login
+instaloader
+gunicorn

@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block title %}Brand Story - Svara{% endblock %}
+
+{% block content %}
+<section class="section" style="padding-top: 5rem;">
+    <div class="container container-large"> <!-- Assuming a large container class or style -->
+
+        <div class="brand-scroll-wrapper">
+            <!-- Header -->
+            <div style="text-align: center; margin-bottom: 8rem;" class="reveal">
+                <span
+                    style="font-family:'Inter',sans-serif; text-transform:uppercase; letter-spacing:4px; font-size:0.9rem; color:var(--accent-pink);">Since
+                    2026</span>
+                <h1 style="font-size: 6rem; margin-top: 1rem; line-height: 1;">Uniquely<br><span
+                        style="font-family:'Inter',sans-serif; font-weight:300; font-style:italic;">Svara</span></h1>
+            </div>
+
+            <div class="sticky-section">
+                <!-- Left: Sticky Content -->
+                <div class="sticky-content">
+                    <div class="scroll-tracker">
+                        <div class="scroll-indicator">
+                            <div class="scroll-progress" id="scrollProgress"></div>
+                        </div>
+                    </div>
+
+                    <div class="reveal">
+                        <div class="highlight-number">01</div>
+                        <h2 style="font-size: 3rem; margin-bottom: 2rem;">A Symphony of Style</h2>
+                        <p
+                            style="font-size: 1.2rem; line-height: 1.8; color: var(--text-secondary); margin-bottom: 2rem;">
+                            Svara is not just a brand; it is a curation of moments. We believe that style is a personal
+                            language, spoken through the subtle glint of gold and the quiet confidence of stone.
+                        </p>
+                        <p style="font-size: 1.2rem; line-height: 1.8; color: var(--text-secondary);">
+                            Born from a desire to make luxury accessible yet exclusive, every piece in our collection is
+                            handpicked to resonate with the modern soul.
+                        </p>
+                    </div>
+
+                    <div style="margin-top: 8rem;" class="reveal">
+                        <div class="highlight-number">02</div>
+                        <h2 style="font-size: 3rem; margin-bottom: 2rem;">Conscious Craft</h2>
+                        <p style="font-size: 1.2rem; line-height: 1.8; color: var(--text-secondary);">
+                            We honor the hands that create. Our collection focuses on sustainable practices and
+                            supporting artisanal craftsmanship that has been passed down through generations.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Right: Scrolling Images -->
+                <div class="sticky-images">
+                    <div class="sticky-img-card reveal">
+                        <img src="{{ url_for('static', filename='uploads/roselume.jpg') }}" alt="Svara Aesthetic">
+                    </div>
+                    <div class="sticky-img-card reveal">
+                        <img src="{{ url_for('static', filename='uploads/vintage.jpg') }}" alt="Svara Detail">
+                    </div>
+                    <div class="sticky-img-card reveal">
+                        <img src="{{ url_for('static', filename='uploads/classics.jpg') }}" alt="Svara Mood">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Manifesto -->
+        <div style="text-align: center; margin-top: 10rem; position: relative;" class="reveal">
+            <i class="fas fa-quote-left" style="font-size: 2rem; color: var(--accent-pink); margin-bottom: 2rem;"></i>
+            <p
+                style="font-size: 2.5rem; font-family: 'Playfair Display', serif; max-width: 900px; margin: 0 auto; line-height: 1.4;">
+                "To wear Svara is to wear a piece of art that understands you. Effortless, timeless, and ideally yours."
+            </p>
+            <div style="margin-top: 4rem;">
+                <img src="{{ url_for('static', filename='images/logo-Photoroom.png') }}" alt="Svara Logo"
+                    style="width: 100px; opacity: 0.8;">
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<script>
+    // SimpleScroll Logic for the progress bar
+    window.addEventListener('scroll', () => {
+        const wrapper = document.querySelector('.brand-scroll-wrapper');
+        if (!wrapper) return;
+
+        const start = wrapper.offsetTop;
+        const height = wrapper.offsetHeight;
+        const scroll = window.scrollY;
+
+        // Calculate percentage 0 to 100
+        let percent = ((scroll - start + 300) / (height - 600)) * 100;
+        if (percent < 0) percent = 0;
+        if (percent > 100) percent = 100;
+
+        const bar = document.getElementById('scrollProgress');
+        if (bar) bar.style.height = percent + '%';
+    });
+</script>
+{% endblock %}

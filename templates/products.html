@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Shop Collection - Svara{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">Our Collection</h2>
+
+        <div class="product-grid" id="instagram-feed">
+            {% for product in products %}
+            <div class="product-card reveal">
+                <a href="{{ product.instagram_url }}" target="_blank">
+                    <div
+                        style="width: 100%; aspect-ratio: 1; overflow: hidden; border-radius: 4px; margin-bottom: 1rem;">
+                        <!-- Prefer local image for speed, fallback to generic if missing -->
+                        <img src="{{ url_for('static', filename='uploads/' + product.image_file) }}"
+                            alt="{{ product.name }}"
+                            style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;">
+                    </div>
+                    <div class="product-info">
+                        <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem;">{{ product.name }}</h3>
+                        <div class="product-price">
+                            View on Instagram <i class="fas fa-arrow-right"
+                                style="font-size: 0.8rem; margin-left: 5px;"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% else %}
+            <!-- Fallback if DB is empty -->
+            <div style="grid-column: 1/-1; text-align: center; padding: 4rem;">
+                <p>No products currently displayed.</p>
+                <p style="font-size: 0.9rem; color: var(--text-secondary);">
+                    (Admin: Use the 'Sync Instagram' button in the dashboard to populate this feed)
+                </p>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div style="margin-top: 4rem; text-align: center;">
+            <a href="https://www.instagram.com/svara.in_" target="_blank" class="btn">View All on Instagram</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Product - Svara{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container" style="max-width: 600px;">
+        <h2 class="section-title">Add New Product</h2>
+        <form method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="name">Product Name</label>
+                <input type="text" id="name" name="name" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="price">Price (e.g., $50)</label>
+                <input type="text" id="price" name="price" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" class="form-control" rows="4"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="instagram_url">Instagram Post Link</label>
+                <input type="url" id="instagram_url" name="instagram_url" class="form-control" required
+                    placeholder="https://instagram.com/p/...">
+            </div>
+            <div class="form-group">
+                <label for="image">Product Image</label>
+                <input type="file" id="image" name="image" class="form-control" accept="image/*">
+            </div>
+            <div style="display: flex; gap: 1rem;">
+                <button type="submit" class="btn">Add Product</button>
+                <a href="{{ url_for('admin_dashboard') }}" class="btn btn-outline">Cancel</a>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

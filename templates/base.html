@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Svara Jewellery{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- Preloader -->
+    <div id="preloader">
+        <img src="{{ url_for('static', filename='images/logo-Photoroom.png') }}" alt="Loading..."
+            class="preloader-logo">
+    </div>
+
+    <header>
+        <div class="container">
+            <nav>
+                <a href="{{ url_for('index') }}" class="logo">
+                    <img src="{{ url_for('static', filename='images/logo-Photoroom.png') }}" alt="Svara Jewellery">
+                </a>
+                <ul class="nav-links">
+                    <li><a href="{{ url_for('index') }}">Home</a></li>
+                    <li><a href="{{ url_for('brand') }}">Brand</a></li>
+                    <li><a href="{{ url_for('products') }}">Shop</a></li>
+
+                    {% if current_user.is_authenticated %}
+                    <li><a href="{{ url_for('admin_dashboard') }}">Admin</a></li>
+                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="container">
+            {% for message in messages %}
+            <div style="background: #f8d7da; color: #721c24; padding: 10px; margin-top: 20px; border-radius: 4px;">{{
+                message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 Svara Jewellery. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="ambient-light">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+    <div class="noise-overlay"></div>
+
+    <script>
+        // Preloader Logic
+        window.addEventListener('load', function () {
+            const preloader = document.getElementById('preloader');
+            setTimeout(function () {
+                preloader.classList.add('hidden');
+
+                // Trigger Text Split Animation on Hero after load
+                const heros = document.querySelectorAll('.hero h1');
+                heros.forEach(h1 => {
+                    h1.innerHTML = h1.textContent.split('').map(char =>
+                        `<span class="char">${char === ' ' ? '&nbsp;' : char}</span>`
+                    ).join('');
+
+                    const chars = h1.querySelectorAll('.char');
+                    chars.forEach((char, index) => {
+                        setTimeout(() => char.classList.add('active'), 50 * index);
+                    });
+                });
+
+            }, 800);
+        });
+
+        // Scroll Reveal Logic (Intersection Observer)
+        document.addEventListener('DOMContentLoaded', () => {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: "0px 0px -50px 0px"
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        // Stagger effect for grids
+                        setTimeout(() => {
+                            entry.target.classList.add('active');
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }, index * 100);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            // Observe standard reveal elements
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+            // Observe Product Cards and Section Titles manually if they don't have .reveal
+            document.querySelectorAll('.product-card').forEach(el => observer.observe(el));
+            document.querySelectorAll('.section-title').forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+
+</html>
